@@ -14,24 +14,36 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
             padding: 20px;
         }
 
         .header {
             display: flex;
             align-items: center;
-            margin-bottom: 30px;
+            flex-direction: column;
+            margin-bottom: 20px;
         }
 
         .header h1 {
-            font-size: 26px;
-            margin-right: 10px;
+            font-size: 28px;
             font-weight: normal;
+            margin-bottom: 5px;
         }
 
-        .google-logo {
-            height: 30px;
+        .header img {
+            height: 35px;
+        }
+
+        .header .slogan {
+            font-size: 15px;
+            color: #9aa0a6;
+            margin-top: 10px;
+        }
+
+        .credit {
+            font-size: 13px;
+            margin-top: 15px;
+            color: #9aa0a6;
         }
 
         .input-box {
@@ -51,11 +63,12 @@
             color: #e8eaed;
             box-sizing: border-box;
             resize: none;
+            font-size: 15px;
         }
 
         .char-counter {
             text-align: right;
-            font-size: 12px;
+            font-size: 13px;
             color: #9aa0a6;
             margin-top: 2px;
         }
@@ -68,6 +81,7 @@
             border-radius: 8px;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
             word-wrap: break-word;
+            font-size: 15px;
         }
 
         .result a.title {
@@ -81,13 +95,11 @@
         }
 
         .result .url {
-            font-size: 14px;
             color: #34a853;
             margin-top: 5px;
         }
 
         .result .description {
-            font-size: 14px;
             color: #bdc1c6;
             margin-top: 8px;
         }
@@ -101,9 +113,10 @@
 <body>
 
     <div class="header">
-        <h1>Simulador da SERP do</h1>
-        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png"
-            class="google-logo" alt="Google">
+        <h1>Simulador da SERP do <img src="https://logodownload.org/wp-content/uploads/2014/09/google-logo-1.png"
+                alt="Google"></h1>
+        <div class="slogan">Veja em tempo real como seu site aparecerá nos resultados do Google.</div>
+        <div class="credit">Desenvolvido por Tatiane Gomes Rodrigues&reg;</div>
     </div>
 
     <div class="input-box">
@@ -148,7 +161,6 @@
         descInput.addEventListener('input', atualizarResultado);
         document.getElementById('urlInput').addEventListener('input', atualizarResultado);
 
-        // Bloquear colagem excedente para title
         titleInput.addEventListener('paste', (e) => {
             e.preventDefault();
             let text = (e.clipboardData || window.clipboardData).getData('text');
@@ -156,7 +168,6 @@
             document.execCommand('insertText', false, text);
         });
 
-        // Bloquear colagem excedente para description
         descInput.addEventListener('paste', (e) => {
             e.preventDefault();
             let text = (e.clipboardData || window.clipboardData).getData('text');
