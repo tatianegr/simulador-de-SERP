@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador SERP Google (Tema Escuro)</title>
+    <title>Simulador SERP Google em Tempo Real</title>
     <link rel="icon" href="https://www.google.com/favicon.ico">
     <style>
         body {
@@ -17,9 +18,20 @@
             padding: 20px;
         }
 
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 26px;
+            margin-right: 10px;
+            font-weight: normal;
+        }
+
         .google-logo {
-            width: 272px;
-            margin-bottom: 40px;
+            height: 30px;
         }
 
         .input-box {
@@ -28,15 +40,24 @@
             margin-bottom: 30px;
         }
 
-        .input-box input, .input-box textarea {
+        .input-box input,
+        .input-box textarea {
             width: 100%;
             padding: 10px;
-            margin-top: 10px;
+            margin-top: 8px;
             border-radius: 5px;
             border: none;
             background-color: #303134;
             color: #e8eaed;
             box-sizing: border-box;
+            resize: none;
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 12px;
+            color: #9aa0a6;
+            margin-top: 2px;
         }
 
         .result {
@@ -45,16 +66,14 @@
             background-color: #303134;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            word-wrap: break-word;
         }
 
         .result a.title {
             font-size: 20px;
             color: #8ab4f8;
             text-decoration: none;
-            display: block;
-            margin-bottom: 5px;
-            word-break: break-word;
         }
 
         .result a.title:hover {
@@ -64,14 +83,13 @@
         .result .url {
             font-size: 14px;
             color: #34a853;
-            margin-bottom: 8px;
-            word-break: break-word;
+            margin-top: 5px;
         }
 
         .result .description {
             font-size: 14px;
             color: #bdc1c6;
-            line-height: 1.4;
+            margin-top: 8px;
         }
 
         ::placeholder {
@@ -79,33 +97,76 @@
         }
     </style>
 </head>
+
 <body>
 
-<img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png" alt="Google Logo" class="google-logo">
+    <div class="header">
+        <h1>Simulador da SERP do</h1>
+        <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_light_color_272x92dp.png"
+            class="google-logo" alt="Google">
+    </div>
 
-<div class="input-box">
-    <input type="text" id="titleInput" placeholder="Título (title)" maxlength="60" oninput="atualizarResultado()">
-    <input type="text" id="urlInput" placeholder="URL exibida" maxlength="80" oninput="atualizarResultado()">
-    <textarea id="descInput" placeholder="Descrição (meta description)" maxlength="160" rows="3" oninput="atualizarResultado()"></textarea>
-</div>
+    <div class="input-box">
+        <input type="text" id="titleInput" placeholder="Título (title)" maxlength="60">
+        <div class="char-counter"><span id="titleCount">0</span>/60 caracteres</div>
 
-<div class="result">
-    <a href="#" class="title" id="resultadoTitulo">Título da página aparecerá aqui</a>
-    <div class="url" id="resultadoURL">www.exemplo.com.br/sua-pagina</div>
-    <div class="description" id="resultadoDescricao">A descrição (meta description) aparecerá aqui, mostrando como seu conteúdo ficará nos resultados de busca do Google.</div>
-</div>
+        <input type="text" id="urlInput" placeholder="URL exibida" style="margin-top:20px;">
 
-<script>
-    function atualizarResultado() {
-        const titulo = document.getElementById('titleInput').value || 'Título da página aparecerá aqui';
-        const url = document.getElementById('urlInput').value || 'www.exemplo.com.br/sua-pagina';
-        const descricao = document.getElementById('descInput').value || 'A descrição (meta description) aparecerá aqui, mostrando como seu conteúdo ficará nos resultados de busca do Google.';
+        <textarea id="descInput" placeholder="Descrição (meta description)" maxlength="160"
+            rows="3"></textarea>
+        <div class="char-counter"><span id="descCount">0</span>/160 caracteres</div>
+    </div>
 
-        document.getElementById('resultadoTitulo').textContent = titulo;
-        document.getElementById('resultadoURL').textContent = url;
-        document.getElementById('resultadoDescricao').textContent = descricao;
-    }
-</script>
+    <div class="result">
+        <a href="#" class="title" id="resultadoTitulo">Título da página aparecerá aqui</a>
+        <div class="url" id="resultadoURL">www.exemplo.com.br/sua-pagina</div>
+        <div class="description" id="resultadoDescricao">A descrição (meta description) aparecerá aqui, mostrando
+            como seu conteúdo ficará nos resultados de busca do Google.</div>
+    </div>
+
+    <script>
+        const titleInput = document.getElementById('titleInput');
+        const descInput = document.getElementById('descInput');
+
+        const resultadoTitulo = document.getElementById('resultadoTitulo');
+        const resultadoURL = document.getElementById('resultadoURL');
+        const resultadoDescricao = document.getElementById('resultadoDescricao');
+
+        const titleCount = document.getElementById('titleCount');
+        const descCount = document.getElementById('descCount');
+
+        function atualizarResultado() {
+            resultadoTitulo.textContent = titleInput.value || 'Título da página aparecerá aqui';
+            resultadoURL.textContent = document.getElementById('urlInput').value || 'www.exemplo.com.br/sua-pagina';
+            resultadoDescricao.textContent = descInput.value || 'A descrição (meta description) aparecerá aqui, mostrando como seu conteúdo ficará nos resultados de busca do Google.';
+
+            titleCount.textContent = titleInput.value.length;
+            descCount.textContent = descInput.value.length;
+        }
+
+        titleInput.addEventListener('input', atualizarResultado);
+        descInput.addEventListener('input', atualizarResultado);
+        document.getElementById('urlInput').addEventListener('input', atualizarResultado);
+
+        // Bloquear colagem excedente para title
+        titleInput.addEventListener('paste', (e) => {
+            e.preventDefault();
+            let text = (e.clipboardData || window.clipboardData).getData('text');
+            text = text.slice(0, 60 - titleInput.value.length);
+            document.execCommand('insertText', false, text);
+        });
+
+        // Bloquear colagem excedente para description
+        descInput.addEventListener('paste', (e) => {
+            e.preventDefault();
+            let text = (e.clipboardData || window.clipboardData).getData('text');
+            text = text.slice(0, 160 - descInput.value.length);
+            document.execCommand('insertText', false, text);
+        });
+
+        atualizarResultado();
+    </script>
 
 </body>
+
 </html>
